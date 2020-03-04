@@ -19,12 +19,21 @@ public class CustomerCreditInfoController {
     return customerCreditInfoService.findCustomerCreditInfo(Long.parseLong(id));
   }
 
+  // @PostMapping("/customer")
+  // public CustomerCreditInfo saveCustomerCreditInfo() {
+  //   return customerCreditInfoService.saveCustomerCreditInfo(new CustomerCreditInfo(
+  //     "Honey Bunny",
+  //     123456789,
+  //     new int[]{1, 2, 3}
+  //   ));
+  // }
+
+
   @PostMapping("/customer")
   public CustomerCreditInfo saveCustomerCreditInfo() {
     return customerCreditInfoService.saveCustomerCreditInfo(new CustomerCreditInfo(
       "Honey Bunny",
-      123456789,
-      new int[]{1, 2, 3}
+      123456789
     ));
   }
 

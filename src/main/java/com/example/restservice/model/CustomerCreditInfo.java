@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.hibernate.annotations.Type;
+// import org.hibernate.annotations.Type;
 
 // import java.util.UUID;
 
@@ -22,18 +22,24 @@ public class CustomerCreditInfo {
   private String name;
   @Column(name="ssn")
   private int ssn;
-  @Type(type = "com.example.mytastyserver.util.GenericArrayUserType")
-  @Column(
-    name = "tags",
-    columnDefinition = "int[]"
-  )
-  private int[] tags;
+  // @Type(type = "com.example.mytastyserver.util.GenericArrayUserType")
+  // @Column(
+  //   name = "tags",
+  //   columnDefinition = "int[]"
+  // )
+  // private int[] tags;
 
-    public CustomerCreditInfo (String name, int ssn, int[] tags) {
-        this.name = name;
-        this.ssn = ssn;
-        this.tags = tags;
-    }
+    // public CustomerCreditInfo (String name, int ssn, int[] tags) {
+    //     this.name = name;
+    //     this.ssn = ssn;
+    //     this.tags = tags;
+    // }
+
+
+    public CustomerCreditInfo (String name, int ssn) {
+      this.name = name;
+      this.ssn = ssn;
+  }
 
     public long getId(){ return id; }
     public void setId(long id) { this.id = id;}
@@ -41,7 +47,7 @@ public class CustomerCreditInfo {
     public void setName(String name) { this.name = name; }
     public int getSSN() { return ssn; }
     public void setSSN(int ssn) { this.ssn = ssn;}
-    public int[] getTags(){return this.tags;}
-    public void setTags(int[] tags) {this.tags = tags;}
+    // public int[] getTags(){return this.tags;}
+    // public void setTags(int[] tags) {this.tags = tags;}
 }
 
