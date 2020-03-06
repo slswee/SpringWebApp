@@ -1,11 +1,12 @@
 package com.example.restservice.controller;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.example.restservice.model.CustomerCreditInfo;
 import com.example.restservice.service.CustomerCreditInfoService;
@@ -56,18 +57,9 @@ public class CustomerCreditInfoController {
     private List<CustomerCreditInfo> readFile(String filename) {
       List<CustomerCreditInfo> inputLines = new ArrayList<>();
       try {
-              BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-              // the header
-              // String line = bufferedReader.readLine();
-              // System.out.println(line);
+            Stream<String> lines = Files.lines(Paths.get(filename)).skip(1).limit(10);
 
-              inputLines = IntStream.range(1, 10).mapToObj(i -> {
-                try {
-                  return bufferedReader.readLine();
-                } catch (IOException ex) {
-                  throw new RuntimeException(ex);
-                }
-              }).map(currentLine -> {
+              inputLines = lines.map(currentLine -> {
                 try {
                   StringBuilder sb = new StringBuilder(currentLine);
                   String name = sb.substring(0, 72).trim();
@@ -85,7 +77,7 @@ public class CustomerCreditInfoController {
                 }
               })
               .collect(Collectors.toList());
-              bufferedReader.close();
+
               // process the strings
           }
           catch (FileNotFoundException e) {
