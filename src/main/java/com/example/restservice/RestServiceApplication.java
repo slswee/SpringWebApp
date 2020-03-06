@@ -11,7 +11,7 @@ public class RestServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestServiceApplication.class, args);
-		readFile("/Users/sally/SallyProjects/spring-boot-rest-service-master/test.dat");
+		// readFile("/Users/sally/SallyProjects/spring-boot-rest-service-master/test.dat");
 	}
 
 
