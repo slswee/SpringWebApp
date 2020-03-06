@@ -57,8 +57,9 @@ public class CustomerCreditInfoController {
       List<CustomerCreditInfo> inputLines = new ArrayList<>();
       try {
               BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-              String line = bufferedReader.readLine();
-              System.out.println(line);
+              // the header
+              // String line = bufferedReader.readLine();
+              // System.out.println(line);
 
               inputLines = IntStream.range(1, 10).mapToObj(i -> {
                 try {
@@ -69,10 +70,10 @@ public class CustomerCreditInfoController {
               }).map(currentLine -> {
                 try {
                   StringBuilder sb = new StringBuilder(currentLine);
-                  String name = sb.substring(0, 72);
-                  int ssn = Integer.valueOf(sb.substring(73, 82));
+                  String name = sb.substring(0, 72).trim();
+                  int ssn = Integer.valueOf(sb.substring(72, 81));
                   List<Integer> tags = new ArrayList<>();
-                  for (int i = 83; i < sb.length(); i += 9) {
+                  for (int i = 81; i < sb.length(); i += 9) {
                     // we get rid of the space 
                     int tag = Integer.valueOf(sb.substring(i, i + 9).trim());
                     // we are adding the negative numbers to the tags
