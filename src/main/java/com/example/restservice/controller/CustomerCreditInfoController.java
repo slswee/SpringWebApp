@@ -36,15 +36,15 @@ public class CustomerCreditInfoController {
   // }
 
   @PostMapping("/customer")
-  public void saveCustomersFromFile() throws IOException {
-    // return customerCreditInfoService.saveCustomerCreditInfo(new
-    // CustomerCreditInfo(
-    // "Honey Bunny",
-    // 123456789,
-    // Arrays.asList(123, 333, 444)
-    // ));
-    List<CustomerCreditInfo> customers = readFile("test.dat");
-    saveCustomers(customers);
+  public void saveCustomersFromFile() {
+
+    List<CustomerCreditInfo> customers;
+    try {
+      customers = readFile("test.dat");
+      saveCustomers(customers);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 
@@ -55,7 +55,7 @@ public class CustomerCreditInfoController {
     List<CustomerCreditInfo> temp = new ArrayList<>();
     for (CustomerCreditInfo customer: customers) {
       temp.add(customer);
-      if ((counter + 1) % 500 == 0 || (counter + 1) == size) {
+      if ((counter + 1) % 20 == 0 || (counter + 1) == size) {
         customerCreditInfoService.saveCustomerCreditInfo(temp);
         temp.clear();
       }
@@ -71,15 +71,13 @@ public class CustomerCreditInfoController {
 
       try {
         inputStream = new FileInputStream(filename);
-
         sc = new Scanner(inputStream, "UTF-8");
         // skip the first line which is the header
         sc.nextLine();
+        
         int x = 0; 
-        while (sc.hasNextLine() && x++ < 20) {
+        while (sc.hasNextLine() && x++ < 103) {
             String currentLine = sc.nextLine();
-            // System.out.println(line);
-
             StringBuilder sb = new StringBuilder(currentLine);
             String name = sb.substring(0, 72).trim();
             int ssn = Integer.valueOf(sb.substring(72, 81));
@@ -90,6 +88,7 @@ public class CustomerCreditInfoController {
               // we are adding the negative numbers to the tags
               tags.add(tag);
             }
+
             customerList.add(new CustomerCreditInfo(name, ssn, tags));
         }
         // note that Scanner suppresses exceptions

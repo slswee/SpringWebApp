@@ -18,7 +18,10 @@ public class CustomerCreditInfoService {
     return CustomerCreditInfoRepository.findById(id).map(customerCreditInfo -> customerCreditInfo).orElse(null);
   }
   @Transactional
-  public CustomerCreditInfo saveCustomerCreditInfo(List<CustomerCreditInfo> content) {
-    return CustomerCreditInfoRepository.save(content);
+  public void saveCustomerCreditInfo(List<CustomerCreditInfo> content) {
+    CustomerCreditInfoRepository.saveAll(content);
   }
+  // public Iterable<CustomerCreditInfo> saveCustomerCreditInfo(List<CustomerCreditInfo> content) {
+  //   return CustomerCreditInfoRepository.saveAll(content);
+  // }
 }
