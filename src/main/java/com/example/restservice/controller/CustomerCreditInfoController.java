@@ -9,7 +9,6 @@ import com.example.restservice.model.CustomerCreditInfo;
 import com.example.restservice.service.CustomerCreditInfoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,15 +24,6 @@ public class CustomerCreditInfoController {
     return customerCreditInfoService.findCustomerCreditInfo(Long.parseLong(id));
   }
 
-  // @PostMapping("/customer")
-  // public CustomerCreditInfo saveCustomerCreditInfo() {
-  // return customerCreditInfoService.saveCustomerCreditInfo(new
-  // CustomerCreditInfo(
-  // "Honey Bunny",
-  // 123456789,
-  // new int[]{1, 2, 3}
-  // ));
-  // }
 
   @PostMapping("/customer")
   public void saveCustomersFromFile() {
@@ -41,25 +31,10 @@ public class CustomerCreditInfoController {
     List<CustomerCreditInfo> customers;
     try {
       customers = readFile("test.dat");
-      saveCustomers(customers);
+      // customerCreditInfoService.saveCustomerCreditInfo(customers);
+
     } catch (IOException e) {
       e.printStackTrace();
-    }
-
-  }
-
-  @Transactional
-  private void saveCustomers(List<CustomerCreditInfo> customers) {
-    int size = customers.size();
-    int counter = 0;
-    List<CustomerCreditInfo> temp = new ArrayList<>();
-    for (CustomerCreditInfo customer: customers) {
-      temp.add(customer);
-      if ((counter + 1) % 20 == 0 || (counter + 1) == size) {
-        customerCreditInfoService.saveCustomerCreditInfo(temp);
-        temp.clear();
-      }
-      counter++;
     }
   }
 
@@ -74,7 +49,7 @@ public class CustomerCreditInfoController {
         sc = new Scanner(inputStream, "UTF-8");
         // skip the first line which is the header
         sc.nextLine();
-        
+
         int x = 0; 
         while (sc.hasNextLine() && x++ < 103) {
             String currentLine = sc.nextLine();
@@ -90,7 +65,13 @@ public class CustomerCreditInfoController {
             }
 
             customerList.add(new CustomerCreditInfo(name, ssn, tags));
+            if (customerList.size() == 20) {
+              customerCreditInfoService.saveCustomerCreditInfo(customerList);
+              customerList.clear();
+            }
         }
+        if (customerList.size() > 0)
+          customerCreditInfoService.saveCustomerCreditInfo(customerList);
         // note that Scanner suppresses exceptions
         if (sc.ioException() != null) {
             throw sc.ioException();
