@@ -25,4 +25,7 @@ public class GreetingController {
   public Greeting saveGreeting(@RequestBody GreetingInput greeting) {
     return greetingService.saveGreeting(greeting.toString());
   }
+
+
+  
 }
