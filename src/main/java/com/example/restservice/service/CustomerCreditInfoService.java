@@ -1,6 +1,7 @@
 package com.example.restservice.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.example.restservice.model.CustomerCreditInfo;
 import com.example.restservice.repository.CustomerCreditInfoRepository;
@@ -14,8 +15,8 @@ public class CustomerCreditInfoService {
   @Autowired
   private CustomerCreditInfoRepository CustomerCreditInfoRepository;
 
-  public CustomerCreditInfo findCustomerCreditInfo(long id) {
-    return CustomerCreditInfoRepository.findById(id).map(customerCreditInfo -> customerCreditInfo).orElse(null);
+  public CustomerCreditInfo findCustomerCreditInfo(UUID uuid) {
+    return CustomerCreditInfoRepository.findById(uuid).map(customerCreditInfo -> customerCreditInfo).orElse(null);
   }
   @Transactional
   public void saveCustomerCreditInfo(List<CustomerCreditInfo> content) {

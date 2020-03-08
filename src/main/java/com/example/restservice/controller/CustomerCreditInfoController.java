@@ -1,9 +1,12 @@
 package com.example.restservice.controller;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 import com.example.restservice.model.CustomerCreditInfo;
 import com.example.restservice.service.CustomerCreditInfoService;
@@ -20,8 +23,16 @@ public class CustomerCreditInfoController {
   private CustomerCreditInfoService customerCreditInfoService;
 
   @GetMapping("/customer")
-  public CustomerCreditInfo CustomerCreditInfo(@RequestParam(value = "id", defaultValue = "1") String id) {
-    return customerCreditInfoService.findCustomerCreditInfo(Long.parseLong(id));
+  public CustomerCreditInfo CustomerCreditInfo(@RequestParam(value = "id", defaultValue = "1") String uuid) {
+    return customerCreditInfoService.findCustomerCreditInfo(UUID.fromString(uuid));
+  }
+
+  @GetMapping("/tags")
+  public List<Integer> CustomerTags(@RequestParam(value = "id", defaultValue = "1") String uuid) {
+    CustomerCreditInfo customer = customerCreditInfoService.findCustomerCreditInfo(UUID.fromString(uuid));
+    List<Integer> tags = customer.getTags();
+
+    return tags;
   }
 
 
