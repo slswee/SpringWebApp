@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
 public class CustomerCreditInfoController {
   @Autowired
@@ -34,7 +32,6 @@ public class CustomerCreditInfoController {
 
     return tags;
   }
-
 
   @PostMapping("/customer")
   public void saveCustomersFromFile(@RequestParam(value = "filename", defaultValue = "test.dat") String filename) {
@@ -66,9 +63,8 @@ public class CustomerCreditInfoController {
             int ssn = Integer.valueOf(sb.substring(72, 81));
             List<Integer> tags = new ArrayList<>();
             for (int i = 81; i < sb.length(); i += 9) {
-              // we get rid of the space 
               int tag = Integer.valueOf(sb.substring(i, i + 9).trim());
-              // we are adding the negative numbers to the tags
+              // negative numbers are added to the tags 
               tags.add(tag);
             }
 
@@ -80,7 +76,6 @@ public class CustomerCreditInfoController {
         }
         if (customerList.size() > 0)
           customerCreditInfoService.saveCustomerCreditInfo(customerList);
-        // note that Scanner suppresses exceptions
         if (sc.ioException() != null) {
             throw sc.ioException();
         }
