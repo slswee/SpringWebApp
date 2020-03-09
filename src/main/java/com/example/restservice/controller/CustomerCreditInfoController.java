@@ -1,5 +1,7 @@
 package com.example.restservice.controller;
 
+import com.example.restservice.model.CustomerCreditInfo;
+import com.example.restservice.service.CustomerCreditInfoService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,15 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
-
-import com.example.restservice.model.CustomerCreditInfo;
-import com.example.restservice.service.CustomerCreditInfoService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 public class CustomerCreditInfoController {
@@ -37,11 +37,11 @@ public class CustomerCreditInfoController {
 
 
   @PostMapping("/customer")
-  public void saveCustomersFromFile() {
+  public void saveCustomersFromFile(@RequestParam(value = "filename", defaultValue = "test.dat") String filename) {
 
     List<CustomerCreditInfo> customers;
     try {
-      customers = getCustomerFromFileAndSave("test.dat");
+      customers = getCustomerFromFileAndSave(filename);
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -59,9 +59,7 @@ public class CustomerCreditInfoController {
         sc = new Scanner(inputStream, "UTF-8");
         // skip the first line which is the header
         sc.nextLine();
-
-        int x = 0; 
-        while (sc.hasNextLine() && x++ < 103) {
+        while (sc.hasNextLine()) {
             String currentLine = sc.nextLine();
             StringBuilder sb = new StringBuilder(currentLine);
             String name = sb.substring(0, 72).trim();
