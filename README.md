@@ -65,7 +65,7 @@
 
   * **Code:** 200 <br />
     
-  ```
+```
 {
 	"uuid": "4c4e65e5-f4c5-48ba-a567-4a2e78c26de1",
 	"name": "Norma Fisher",
