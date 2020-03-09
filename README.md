@@ -59,10 +59,7 @@
   `POST`
   
 *  **URL Params**
-
-   **Required:**
- 
-   `id=[integer]`
+  None
 
 * **Success Response:**
 
