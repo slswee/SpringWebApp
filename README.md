@@ -6,7 +6,7 @@
 
 * **URL**
 
-  /customer/:id
+  /customer/?id
 
 * **Method:**
 
@@ -16,7 +16,7 @@
 
    **Required:**
  
-   `id=[integer]`
+   `id=[UUID]`
 
 * **Success Response:**
 
@@ -24,7 +24,7 @@
   
 * **URL**
 
-  /tags/:id
+  /tags/?id
 
 * **Method:**
 
@@ -34,7 +34,7 @@
 
    **Required:**
  
-   `id=[integer]`
+   `id=[UUID]`
 
 * **Success Response:**
 
@@ -61,7 +61,7 @@
 *  **URL Params**
   None
 
-* **Success Response:**
+* **Success Request Body:**
 
   * **Code:** 200 <br />
     
