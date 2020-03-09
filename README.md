@@ -50,7 +50,7 @@
 
    **Required:**
  
-   `id=[integer]`
+   `id=[UUID]`
 
   /customer
 
