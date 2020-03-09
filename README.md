@@ -1,6 +1,7 @@
 # SpringWebApp
-**Get Customer Credit Info**
+**Customer Credit Info**
 ----
+  Reads data from file, processes and stores in Postgres.
   Returns json data about a single customer.
 
 * **URL**
