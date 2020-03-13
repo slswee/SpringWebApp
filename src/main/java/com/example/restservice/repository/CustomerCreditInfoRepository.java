@@ -5,11 +5,15 @@ import java.util.UUID;
 
 import com.example.restservice.model.CustomerCreditInfo;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerCreditInfoRepository extends CrudRepository<CustomerCreditInfo, UUID> {
 
-	CustomerCreditInfo save(List<CustomerCreditInfo> content);
+	void save(List<CustomerCreditInfo> content);
+
+	@Query("SELECT tags[1] FROM customer_credit WHERE tags[1] > 0")
+	List<Integer> getTags(int index);
 }

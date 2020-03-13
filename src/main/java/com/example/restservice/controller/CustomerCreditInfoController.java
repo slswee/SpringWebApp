@@ -1,6 +1,7 @@
 package com.example.restservice.controller;
 
 import com.example.restservice.model.CustomerCreditInfo;
+import com.example.restservice.model.TagMetrics;
 import com.example.restservice.service.CustomerCreditInfoService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +34,11 @@ public class CustomerCreditInfoController {
     return tags;
   }
 
+  @GetMapping("/tagMetrics")
+  public TagMetrics getTagMetrics(@RequestParam(value = "tag", defaultValue = "X0001") String tag) {
+    return customerCreditInfoService.getTagMetrics(tag);
+  }
+
   @PostMapping("/customer")
   public void saveCustomersFromFile(@RequestParam(value = "filename", defaultValue = "test.dat") String filename) {
 
@@ -51,44 +57,45 @@ public class CustomerCreditInfoController {
     FileInputStream inputStream = null;
     Scanner sc = null;
 
-      try {
-        inputStream = new FileInputStream(filename);
-        sc = new Scanner(inputStream, "UTF-8");
-        // skip the first line which is the header
-        sc.nextLine();
-        while (sc.hasNextLine()) {
-            String currentLine = sc.nextLine();
-            StringBuilder sb = new StringBuilder(currentLine);
-            String name = sb.substring(0, 72).trim();
-            int ssn = Integer.valueOf(sb.substring(72, 81));
-            List<Integer> tags = new ArrayList<>();
-            for (int i = 81; i < sb.length(); i += 9) {
-              int tag = Integer.valueOf(sb.substring(i, i + 9).trim());
-              // negative numbers are added to the tags 
-              tags.add(tag);
-            }
+    try {
+      inputStream = new FileInputStream(filename);
+      sc = new Scanner(inputStream, "UTF-8");
+      // skip the first line which is the header
+      sc.nextLine();
+      int x = 0;
+      while (sc.hasNextLine() && x++ < 103) {
+        String currentLine = sc.nextLine();
+        StringBuilder sb = new StringBuilder(currentLine);
+        String name = sb.substring(0, 72).trim();
+        int ssn = Integer.valueOf(sb.substring(72, 81));
+        List<Integer> tags = new ArrayList<>();
+        for (int i = 81; i < sb.length(); i += 9) {
+          int tag = Integer.valueOf(sb.substring(i, i + 9).trim());
+          // negative numbers are added to the tags
+          tags.add(tag);
+        }
 
-            customerList.add(new CustomerCreditInfo(name, ssn, tags));
-            if (customerList.size() == 20) {
-              customerCreditInfoService.saveCustomerCreditInfo(customerList);
-              customerList.clear();
-            }
-        }
-        if (customerList.size() > 0)
+        customerList.add(new CustomerCreditInfo(name, ssn, tags));
+        if (customerList.size() == 20) {
           customerCreditInfoService.saveCustomerCreditInfo(customerList);
-        if (sc.ioException() != null) {
-            throw sc.ioException();
+          customerList.clear();
         }
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-      } finally {
-        if (inputStream != null) {
-            inputStream.close();
-        }
-        if (sc != null) {
-            sc.close();
-        }
-    }
-          return customerList;
       }
+      if (customerList.size() > 0)
+        customerCreditInfoService.saveCustomerCreditInfo(customerList);
+      if (sc.ioException() != null) {
+        throw sc.ioException();
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } finally {
+      if (inputStream != null) {
+        inputStream.close();
+      }
+      if (sc != null) {
+        sc.close();
+      }
+    }
+    return customerList;
+  }
 }
