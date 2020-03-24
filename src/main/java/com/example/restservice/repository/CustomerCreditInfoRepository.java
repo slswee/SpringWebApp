@@ -14,6 +14,6 @@ public interface CustomerCreditInfoRepository extends CrudRepository<CustomerCre
 
 	void save(List<CustomerCreditInfo> content);
 
-	@Query("SELECT tags[1] FROM customer_credit WHERE tags[1] > 0")
+	@Query(value = "SELECT tags[?1] FROM customer_credit WHERE tags[?1] > 0", nativeQuery = true)
 	List<Integer> getTags(int index);
 }
